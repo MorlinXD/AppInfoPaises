@@ -6,13 +6,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.examensupletorio.Adaptador.PaisAdapter;
 import com.example.examensupletorio.Modelo.Pais;
@@ -42,35 +46,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recyclerView);
-        //txtError1 = findViewById(R.id.txtError);
+        txtError1 = findViewById(R.id.txtError1);
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2); // Para un layout en grid
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 7); // Para un layout en grid
         recyclerView.setLayoutManager(layoutManager);
 
         obtenerPaises();
     }
 
-    private void obtenerPaises() {
+    private void obtenerPaises(){
         String url = "http://www.geognos.com/api/en/countries/info/all.json";
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        /*Map<String, String> listpaises = new HashMap<>();
-        WebService wslistaPaises = new WebService("http://www.geognos.com/api/en/countries/info/all.json",
-            listpaises, MainActivity.this, MainActivity.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Maneja la respuesta aquí
+                        // Guarda la respuesta en un archivo de texto
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            parsearJsonPaises(jsonResponse);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
 
-        wslistaPaises.execute("GET");*/
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, response -> {
-                    // Parsear la respuesta y cargar el RecyclerView
-                    parsearJsonPaises(response);
-                }, error -> {
-                    // Manejar el error
-                    //txtError1.setText();
-                    Toast.makeText(MainActivity.this, "Error al obtener los datos"+ error.toString(), Toast.LENGTH_LONG).show();
-                });
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Maneja los errores de la solicitud aquí
+            }
+        });
 
-        queue.add(jsonObjectRequest);
+        Volley.newRequestQueue(this).add(stringRequest);
     }
 
     private void parsearJsonPaises(JSONObject response) {
@@ -89,17 +98,37 @@ public class MainActivity extends AppCompatActivity {
 
                 Pais pais = new Pais(name, flagUrl);
                 listaPaises.add(pais);
-                //txtError1.setText(name +" "+ flagUrl);
+                txtError1.setText(name + key);
             }
-
+            for (Pais pais : listaPaises) {
+                Log.d("VerificarDatos", "Nombre: " + pais.getName() + ", URL de la Bandera: " + pais.getCountryInfo());
+            }
             // Crear el adaptador y asociarlo al RecyclerView
             PaisAdapter adaptador = new PaisAdapter(this, listaPaises);
-            //txtError1.setText(listaPaises.get(0).getName());
+            txtError1.setText(listaPaises.get(0).getName());
             recyclerView.setAdapter(adaptador);
+            configurarAdaptadorYVerificarDatos();
 
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al procesar los datos JSON", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+    private void configurarAdaptadorYVerificarDatos() {
+        // Verificar e imprimir los datos en el log para asegurarnos de que son correctos
+        if (listaPaises != null) {
+            for (Pais pais : listaPaises) {
+                Log.d("VerificarDatos", "Nombre: " + pais.getName() + ", URL de la Bandera: " + pais.getCountryInfo());
+            }
+
+            // Ahora que hemos verificado que los datos son correctos, configuramos el adaptador
+            PaisAdapter adaptador = new PaisAdapter(this, listaPaises);
+            recyclerView.setAdapter(adaptador);
+        } else {
+            Log.d("VerificarDatos", "La lista de países está vacía o nula.");
         }
     }
 
