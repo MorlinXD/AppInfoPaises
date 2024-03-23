@@ -1,13 +1,14 @@
 package com.example.examensupletorio.Modelo;
 
-public class GeoPosicion {
+import java.io.Serializable;
 
-        private double West;
-        private double East;
-        private double North;
-        private double South;
+public class GeoPosicion implements Serializable {
 
-        // Constructor, getters y setters
+    private double West;
+    private double East;
+    private double North;
+    private double South;
+
 
 
     public GeoPosicion(double west, double east, double north, double south) {

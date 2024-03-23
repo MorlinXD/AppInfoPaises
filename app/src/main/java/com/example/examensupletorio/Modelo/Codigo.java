@@ -1,13 +1,14 @@
 package com.example.examensupletorio.Modelo;
 
-public class Codigo {
-        private String tld;
-        private String iso3;
-        private String iso2;
-        private String fips;
-        private int isoN;
+import java.io.Serializable;
 
-        // Constructor, getters y setters
+public class Codigo implements Serializable {
+    private String tld;
+    private String iso3;
+    private String iso2;
+    private String fips;
+    private int isoN;
+
 
     public Codigo(String tld, String iso3, String iso2, String fips, int isoN) {
         this.tld = tld;

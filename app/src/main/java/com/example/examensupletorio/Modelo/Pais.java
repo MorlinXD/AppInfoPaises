@@ -1,9 +1,10 @@
 package com.example.examensupletorio.Modelo;
+import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pais {
+public class Pais implements Serializable{
     private String Name;
     private Capital Capital;
     private GeoPosicion GeoRectangle;
@@ -13,7 +14,6 @@ public class Pais {
     private Codigo CountryCodes;
     private String CountryInfo;
 
-    // Constructor principal que inicializa todos los atributos.
     public Pais(String name, Capital capital, GeoPosicion geoRectangle, int seqID, List<Double> geoPt, String telPref, Codigo countryCodes, String countryInfo) {
         Name = name;
         Capital = capital;
@@ -22,21 +22,18 @@ public class Pais {
         GeoPt = geoPt;
         TelPref = telPref;
         CountryCodes = countryCodes;
-        CountryInfo = countryInfo;
+        this.CountryInfo = countryInfo;
     }
 
-    // Constructor sobrecargado para inicializar solo el nombre y la URL de la bandera.
-    // Los demás atributos se inicializan con valores por defecto o nulos.
     public Pais(String name, String flagUrl) {
         this.Name = name;
         this.CountryInfo = flagUrl;
-        // Inicialización de otros campos con valores por defecto
-        this.Capital = null; // O un nuevo objeto Capital con valores por defecto si es necesario
-        this.GeoRectangle = null; // O un nuevo objeto GeoPosicion con valores por defecto si es necesario
+        this.Capital = null;
+        this.GeoRectangle = null;
         this.SeqID = 0;
-        this.GeoPt = new ArrayList<>(); // Lista vacía
+        this.GeoPt = new ArrayList<>();
         this.TelPref = "";
-        this.CountryCodes = null; // O un nuevo objeto Codigo con valores por defecto si es necesario
+        this.CountryCodes = null;
     }
 
     // Getters y setters para cada atributo.

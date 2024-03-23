@@ -15,6 +15,10 @@
         android:theme="@style/Theme.ExamenSupletorio"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDIaxNIJYymC8HE00fpXtkpgER2fiM7Hqc" />
+
         <activity
             android:name=".MapaActivity"
             android:exported="false" />

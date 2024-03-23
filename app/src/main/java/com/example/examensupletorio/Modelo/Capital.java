@@ -1,8 +1,9 @@
 package com.example.examensupletorio.Modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Capital {
+public class Capital implements Serializable {
     private String DLST;
     private double TD;
     private int Flg;
@@ -15,6 +16,9 @@ public class Capital {
         Flg = flg;
         Name = name;
         GeoPt = geoPt;
+    }
+    public Capital() {
+
     }
 
     public String getDLST() {
@@ -57,4 +61,3 @@ public class Capital {
         GeoPt = geoPt;
     }
 }
-

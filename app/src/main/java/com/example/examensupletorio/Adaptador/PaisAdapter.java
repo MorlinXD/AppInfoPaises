@@ -35,8 +35,6 @@ public class PaisAdapter extends RecyclerView.Adapter<PaisAdapter.PaisViewHolder
     public PaisViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
         return new PaisViewHolder(view);
-
-
     }
 
     @Override
