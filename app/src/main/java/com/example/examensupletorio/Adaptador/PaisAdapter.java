@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.examensupletorio.MainActivity;
 import com.example.examensupletorio.Modelo.Pais;
 import com.example.examensupletorio.R;
 
@@ -18,12 +20,14 @@ import java.util.List;
 
 public class PaisAdapter extends RecyclerView.Adapter<PaisAdapter.PaisViewHolder> {
 
-    private List<Pais> listaPaises;
+    private static List<Pais> listaPaises;
     private Context context;
+
 
     public PaisAdapter(Context context, List<Pais> listaPaises) {
         this.listaPaises = listaPaises;
         this.context = context;
+
     }
 
     @NonNull
@@ -31,6 +35,8 @@ public class PaisAdapter extends RecyclerView.Adapter<PaisAdapter.PaisViewHolder
     public PaisViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
         return new PaisViewHolder(view);
+
+
     }
 
     @Override
@@ -47,7 +53,7 @@ public class PaisAdapter extends RecyclerView.Adapter<PaisAdapter.PaisViewHolder
         return listaPaises.size();
     }
 
-    public static class PaisViewHolder extends RecyclerView.ViewHolder {
+    public class PaisViewHolder extends RecyclerView.ViewHolder {
         ImageView imview;
         TextView txtNombre;
 

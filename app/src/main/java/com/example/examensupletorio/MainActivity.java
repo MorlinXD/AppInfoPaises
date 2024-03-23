@@ -1,42 +1,35 @@
 package com.example.examensupletorio;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.examensupletorio.Adaptador.PaisAdapter;
 import com.example.examensupletorio.Modelo.Pais;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import WebServices.Asynchtask;
-import WebServices.WebService;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Pais> listaPaises;
+
     TextView txtError1;
 
 
@@ -61,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Maneja la respuesta aquí
-                        // Guarda la respuesta en un archivo de texto
+
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             parsearJsonPaises(jsonResponse);
@@ -75,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // Maneja los errores de la solicitud aquí
+
             }
         });
 
@@ -107,29 +99,16 @@ public class MainActivity extends AppCompatActivity {
             PaisAdapter adaptador = new PaisAdapter(this, listaPaises);
             txtError1.setText(listaPaises.get(0).getName());
             recyclerView.setAdapter(adaptador);
-            configurarAdaptadorYVerificarDatos();
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al procesar los datos JSON", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-    private void configurarAdaptadorYVerificarDatos() {
-        // Verificar e imprimir los datos en el log para asegurarnos de que son correctos
-        if (listaPaises != null) {
-            for (Pais pais : listaPaises) {
-                Log.d("VerificarDatos", "Nombre: " + pais.getName() + ", URL de la Bandera: " + pais.getCountryInfo());
-            }
-
-            // Ahora que hemos verificado que los datos son correctos, configuramos el adaptador
-            PaisAdapter adaptador = new PaisAdapter(this, listaPaises);
-            recyclerView.setAdapter(adaptador);
-        } else {
-            Log.d("VerificarDatos", "La lista de países está vacía o nula.");
-        }
-    }
-
 }
+
+
+
+
